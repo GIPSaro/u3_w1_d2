@@ -13,11 +13,11 @@ class AllTheBooks extends Component {
           {Books.map((book) => {
             return (
               <Col lg={3} md={6} sm={12} key={book.asin} className="mb-4">
-                <Card style={{ width: "18rem" }}>
+                <Card className="card h-100">
                   <Card.Img
                     variant="top"
                     src={book.img}
-                    className="rounded img-cover"
+                    className="h-75 card-img-top"
                   />
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
