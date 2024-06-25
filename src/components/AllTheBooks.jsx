@@ -7,13 +7,18 @@ class AllTheBooks extends Component {
   state = {};
   render() {
     return (
-      <Container className="fluid">
+      <Container fluid="md">
+        <h1 className="my-4">LIBRERIA</h1>
         <Row>
           {Books.map((book) => {
             return (
-              <Col xs={12} md={3} key={book.asin}>
+              <Col lg={3} md={6} sm={12} key={book.asin} className="mb-4">
                 <Card style={{ width: "18rem" }}>
-                  <Card.Img variant="top" src={book.img} />
+                  <Card.Img
+                    variant="top"
+                    src={book.img}
+                    className="rounded img-cover"
+                  />
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
                     <Badge bg="info">{book.price}$</Badge>
