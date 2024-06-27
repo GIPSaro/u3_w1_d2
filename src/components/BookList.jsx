@@ -1,47 +1,57 @@
-import { Component } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
-import fantasy from "../books/fantasy.json";
-import "../AllTheBooks.css";
+import { useState } from "react";
 import SingleBook from "./SingleBook";
+import { Col, Form, Row } from "react-bootstrap";
+import CommentArea from "./CommentArea";
+import "../AllTheBooks.css";
 
-class BookList extends Component {
-  state = {
-    searchQuery: "",
+const BookList = ({ books }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedBook, setSelectedBook] = useState(null);
+
+  const changeSelectedBook = (asin) => {
+    setSelectedBook(asin);
   };
-  render() {
-    return (
-      <Container className="mt-5">
-        <Row className="justify-content-center mt-5">
-          <Col xs={12} md={4} className="text-center">
-            <Form.Group>
-              <Form.Control
-                type="search"
-                placeholder="Cerca un libro"
-                value={this.state.searchQuery}
-                onChange={(e) => this.setState({ searchQuery: e.target.value })}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row className="g-2 mt-3">
-          {this.props.books
-            .filter((b) =>
-              b.title.toLowerCase().includes(this.state.searchQuery)
-            )
-            .map((book, index) => (
-              <Col xs={6} md={4} lg={3} key={`book-${index}`}>
-                <SingleBook
-                  img={book.img}
-                  title={book.title}
-                  price={book.price}
-                  category={book.category}
+
+  return (
+    <>
+      <Row className="justify-content-center">
+        <Col md={6} lg={4} xl={3}>
+          <CommentArea asin={selectedBook} />
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col md={8}>
+          <Row>
+            <Col>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  placeholder="Search here"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
-              </Col>
-            ))}
-        </Row>
-      </Container>
-    );
-  }
-}
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="justify-content-center">
+            {books
+              .filter((b) =>
+                b.title.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((b) => (
+                <Col xs={12} md={4} lg={3} key={b.asin}>
+                  <SingleBook
+                    book={b}
+                    selectedBook={selectedBook}
+                    changeSelectedBook={changeSelectedBook}
+                  />
+                </Col>
+              ))}
+          </Row>
+        </Col>
+      </Row>
+    </>
+  );
+};
 
 export default BookList;

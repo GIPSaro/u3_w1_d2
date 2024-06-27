@@ -5,10 +5,21 @@ const MyNav = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
+        {" "}
+        <img
+          src="../logo192.png"
+          width="20"
+          height="20"
+          className="d-inline-block align-item-center App-logo"
+          alt="React Bootstrap logo"
+        />
+        <Navbar.Brand href="#" className="Epic-book">
+          Epic-Book
+        </Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link href="#home">Home</Nav.Link>
           <Nav.Link href="#link">About</Nav.Link>
-          <Nav.Link href="#home">Browse</Nav.Link>
+          <Nav.Link href="#home">Browser</Nav.Link>
         </Nav>
       </Container>
     </Navbar>

@@ -7,7 +7,9 @@ function Welcome() {
       <Card>
         <Card.Header as="h1">Shop Libri Fantasy 📖</Card.Header>
         <Card.Body>
-          <Alert>I migliori libri fantasy del momento</Alert>
+          <Alert variant="warning" className="text-center">
+            I migliori libri fantasy del momento
+          </Alert>
         </Card.Body>
       </Card>
     </Container>

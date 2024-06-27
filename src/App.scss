@@ -1,10 +1,14 @@
+body {
+  background-image: url("https://images.unsplash.com/photo-1575438922707-be2ba7e3b6f9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+}
+
 .App {
   text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
   pointer-events: none;
+  margin: 10px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -35,4 +39,7 @@
   to {
     transform: rotate(360deg);
   }
+}
+.Epic-book {
+  letter-spacing: 2px;
 }
