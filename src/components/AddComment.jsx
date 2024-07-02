@@ -1,28 +1,34 @@
-import { useState, useEffect } from "react";
+import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
 
-const AddComment = ({ asin }) => {
-  const [comment, setComment] = useState({
-    comment: "",
-    rate: 1,
-    elementId: asin,
-  });
+class AddComment extends Component {
+  state = {
+    comment: {
+      comment: "",
+      rate: 1,
+      elementId: this.props.asin,
+    },
+  };
 
-  useEffect(() => {
-    setComment((prevComment) => ({
-      ...prevComment,
-      elementId: asin,
-    }));
-  }, [asin]);
+  componentDidUpdate(prevProps) {
+    if (prevProps.asin !== this.props.asin) {
+      this.setState({
+        comment: {
+          ...this.state.comment,
+          elementId: this.props.asin,
+        },
+      });
+    }
+  }
 
-  const sendComment = async (e) => {
+  sendComment = async (e) => {
     e.preventDefault();
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/comments",
         {
           method: "POST",
-          body: JSON.stringify(comment),
+          body: JSON.stringify(this.state.comment),
           headers: {
             "Content-type": "application/json",
             Authorization:
@@ -31,63 +37,70 @@ const AddComment = ({ asin }) => {
         }
       );
       if (response.ok) {
-        alert("Comment was sent!");
-        setComment({
-          comment: "",
-          rate: 1,
-          elementId: asin,
+        alert("Recensione inviata!");
+        this.setState({
+          comment: {
+            comment: "",
+            rate: 1,
+            elementId: this.props.asin,
+          },
         });
       } else {
-        console.log("error");
-        alert("something went wrong");
+        throw new Error("Qualcosa è andato storto");
       }
     } catch (error) {
-      console.log("error");
+      alert(error);
     }
   };
 
-  return (
-    <div className="my-3">
-      <Form onSubmit={sendComment}>
-        <Form.Group>
-          <Form.Label>Comment text</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Add comment here"
-            value={comment.comment}
-            onChange={(e) =>
-              setComment((prevComment) => ({
-                ...prevComment,
-                comment: e.target.value,
-              }))
-            }
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Rating</Form.Label>
-          <Form.Control
-            as="select"
-            value={comment.rate}
-            onChange={(e) =>
-              setComment((prevComment) => ({
-                ...prevComment,
-                rate: e.target.value,
-              }))
-            }
-          >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Form.Control>
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
-    </div>
-  );
-};
+  render() {
+    return (
+      <div className="my-3">
+        <Form onSubmit={this.sendComment}>
+          <Form.Group className="mb-2">
+            <Form.Label>Recensione</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Inserisci qui il testo"
+              value={this.state.comment.comment}
+              onChange={(e) =>
+                this.setState({
+                  comment: {
+                    ...this.state.comment,
+                    comment: e.target.value,
+                  },
+                })
+              }
+            />
+          </Form.Group>
+          <Form.Group className="mb-2">
+            <Form.Label>Valutazione</Form.Label>
+            <Form.Control
+              as="select"
+              value={this.state.comment.rate}
+              onChange={(e) =>
+                this.setState({
+                  comment: {
+                    ...this.state.comment,
+                    rate: e.target.value,
+                  },
+                })
+              }
+            >
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </Form.Control>
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Invia
+          </Button>
+        </Form>
+      </div>
+    );
+  }
+}
 
 export default AddComment;

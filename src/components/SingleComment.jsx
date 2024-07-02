@@ -14,12 +14,12 @@ const SingleComment = ({ comment }) => {
         }
       );
       if (response.ok) {
-        alert("Comment was deleted successfully!");
+        alert("La recensione è stata elimata!");
       } else {
-        alert("Error - comment was NOT deleted!");
+        throw new Error("La recensione non è stata eliminata!");
       }
     } catch (error) {
-      alert("Error - comment was NOT deleted!");
+      alert(error);
     }
   };
 
@@ -28,10 +28,10 @@ const SingleComment = ({ comment }) => {
       {comment.comment}
       <Button
         variant="danger"
-        className="ml-2"
+        className="ms-2"
         onClick={() => deleteComment(comment._id)}
       >
-        Delete
+        Elimina
       </Button>
     </ListGroup.Item>
   );
